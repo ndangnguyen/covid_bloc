@@ -1,0 +1,104 @@
+name: covid
+description: Get Covid-19 Information.
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.6.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # Dio
+  dio: ^3.0.9
+
+  # Bloc
+  bloc_provider: ^0.7.0
+
+  # Cupertino Icons
+  cupertino_icons: ^0.1.2
+
+  # Equatable
+  equatable: ^1.1.0
+
+  # RxDart
+  rxdart: ^0.23.1
+
+  # GetIt
+  get_it: ^4.0.1
+
+#  # Keyboard Visibility
+#  keyboard_visibility: ^0.5.6
+
+  # Flutter chart
+  fl_chart: ^0.8.7
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+
+  uses-material-design: true
+
+  assets:
+    # assets-generator-begin
+    # assets/icons/*
+    - assets/icons/iccall.png
+    - assets/icons/icmengenal.png
+    - assets/icons/icchat.png
+    - assets/icons/bantuan_on.png
+    - assets/icons/kasus.png
+    - assets/icons/icmencegah.png
+    - assets/icons/bantuan.png
+    - assets/icons/icmeninggal.png
+    - assets/icons/icrumahsakit.png
+    - assets/icons/icmengobati.png
+    - assets/icons/informasi_on.png
+    - assets/icons/icpointmap.png
+    - assets/icons/kasus_on.png
+    - assets/icons/informasi.png
+    - assets/icons/icmengantisipasi.png
+    - assets/icons/icpositif.png
+    - assets/icons/ichotline.png
+    - assets/icons/icsehat.png
+    # assets/images/*
+    - assets/images/pickasus.png
+    - assets/images/logobantuan.png
+    - assets/images/picinformasi.png
+    - assets/images/logoinformasi.png
+    - assets/images/picbantuan.png
+    - assets/images/logolawan.png
+    # assets-generator-end
+
+  # To add assets to your application, add an assets section, like this:
+  # assets:
+  #  - assets.images/a_dot_burr.jpeg
+  #  - assets.images/a_dot_ham.jpeg
+
+  # An image asset can refer to one or more resolution-specific "variants", see
+  # https://flutter.dev/assets-and-images/#resolution-aware.
+
+  # For details regarding adding assets from package dependencies, see
+  # https://flutter.dev/assets-and-images/#from-packages
+
+  # To add custom fonts to your application, add a fonts section here,
+  # in this "flutter" section. Each entry in this list should have a
+  # "family" key with the font family name, and a "fonts" key with a
+  # list giving the asset and other descriptors for the font. For
+  # example:
+  # fonts:
+  #   - family: Schyler
+  #     fonts:
+  #       - asset: fonts/Schyler-Regular.ttf
+  #       - asset: fonts/Schyler-Italic.ttf
+  #         style: italic
+  #   - family: Trajan Pro
+  #     fonts:
+  #       - asset: fonts/TrajanPro.ttf
+  #       - asset: fonts/TrajanPro_Bold.ttf
+  #         weight: 700
+  #
+  # For details regarding fonts from package dependencies,
+  # see https://flutter.dev/custom-fonts/#from-packages
