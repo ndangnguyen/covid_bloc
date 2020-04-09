@@ -1,4 +1,9 @@
+import 'package:covid/bloc/bloc_index.dart';
+import 'package:covid/di/get_it_manager.dart';
+import 'package:covid/features/help/help_page.dart';
+import 'package:covid/features/information/infomation_page.dart';
 import 'package:covid/features/summary/summary_page.dart';
+import 'package:covid/utils/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -16,11 +21,12 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   PageController _pageController;
   static final _tabIconSize = 20.0;
-  int page = 0;
+  HomeBloc _homeBloc;
 
   @override
   void initState() {
     super.initState();
+    _homeBloc = GetItManager().get<HomeBloc>();
     _pageController = PageController(initialPage: 0);
   }
 
@@ -33,7 +39,13 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         Expanded(
           child: createTabBarView(context),
         ),
-        buildTab(page)
+        StreamBuilder(
+          stream: _homeBloc.tabStream,
+          builder: (context, snapshot) {
+            print('Nguyen: onTabChange: ${snapshot.data}');
+            return buildTabBar(snapshot.data);
+          },
+        )
       ],
     ));
   }
@@ -44,64 +56,56 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       controller: _pageController,
       children: <Widget>[
         SummaryPage(),
-        Container(),
-        Container(),
-//        InformationPage(),
-//        HelpPage(),
+        InformationPage(),
+        HelpPage(),
       ],
       onPageChanged: (page) {
-        print("on page change: $page");
-        this.page = page;
-        // _homeBloc.add(OnTabChangeEvent(page));
-        setState(() {});
+        print("Nguyen onPageChanged: $page");
+        _homeBloc.setTab(page);
       },
     );
   }
 
-  buildTab(selectedIndex) {
+  buildTabBar(selectedIndex) {
     return Padding(
       padding: EdgeInsets.only(bottom: 10),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
-          Expanded(
-              flex: 1,
-              child: InkWell(
-                borderRadius: BorderRadius.circular(10),
-                child: Tab(
-                    text: "Tổng quan",
-                    icon: selectedIndex == 0
-                        ? Image(image: AssetImage(R.assetsIconsKasusOn), height: _tabIconSize, width: _tabIconSize)
-                        : Image(image: AssetImage(R.assetsIconsKasus), height: _tabIconSize, width: _tabIconSize)),
-                onTap: () => _pageController.jumpToPage(0),
-              )),
-          Expanded(
-            flex: 1,
-            child: InkWell(
-              borderRadius: BorderRadius.circular(10),
-              child: Tab(
-                  text: "Thông tin",
-                  icon: selectedIndex == 1
-                      ? Image(image: AssetImage(R.assetsIconsInformasiOn), height: _tabIconSize, width: _tabIconSize)
-                      : Image(image: AssetImage(R.assetsIconsInformasi), height: _tabIconSize, width: _tabIconSize)),
-              onTap: () => _pageController.jumpToPage(1),
-            ),
-          ),
-          Expanded(
-            flex: 1,
-            child: InkWell(
-              borderRadius: BorderRadius.circular(10),
-              child: Tab(
-                  text: "Giúp đỡ",
-                  icon: selectedIndex == 2
-                      ? Image(image: AssetImage(R.assetsIconsBantuanOn), height: _tabIconSize, width: _tabIconSize)
-                      : Image(image: AssetImage(R.assetsIconsBantuan), height: _tabIconSize, width: _tabIconSize)),
-              onTap: () => _pageController.jumpToPage(2),
-            ),
-          ),
+          buildTab(tabIndex: 0, isSelected: 0 == selectedIndex, text: 'Tổng quan', icon: R.assetsIconsKasus, iconSelected: R.assetsIconsKasusOn),
+          buildTab(tabIndex: 1, isSelected: 1 == selectedIndex, text: 'Thông tin', icon: R.assetsIconsInformasi, iconSelected: R.assetsIconsInformasiOn),
+          buildTab(tabIndex: 2, isSelected: 2 == selectedIndex, text: 'Trợ giúp', icon: R.assetsIconsBantuan, iconSelected: R.assetsIconsBantuanOn),
         ],
+      ),
+    );
+  }
+
+  buildTab({tabIndex, isSelected, text, icon, iconSelected}) {
+    return Expanded(
+      child: InkWell(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            SizedBox(
+              height: 10,
+            ),
+            isSelected
+                ? Image(image: AssetImage(iconSelected), height: _tabIconSize, width: _tabIconSize)
+                : Image(image: AssetImage(icon), height: _tabIconSize, width: _tabIconSize),
+            SizedBox(
+              height: 10,
+            ),
+            Text(
+              text,
+              style: TextStyle(color: isSelected ? Color(ColorUtils.c_67C57B) : Colors.black),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+          ],
+        ),
+        onTap: () => _pageController.jumpToPage(tabIndex),
       ),
     );
   }

@@ -28,11 +28,17 @@ dependencies:
   # GetIt
   get_it: ^4.0.1
 
+  # Pallet generator
+  palette_generator: ^0.2.2
+
 #  # Keyboard Visibility
 #  keyboard_visibility: ^0.5.6
 
   # Flutter chart
   fl_chart: ^0.8.7
+
+  # Tiny Color
+  tinycolor: ^1.0.2
 
 dev_dependencies:
   flutter_test:

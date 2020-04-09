@@ -1,94 +1,109 @@
-//import 'package:covid/bloc/bloc_index.dart';
-//import 'package:covid/di/get_it_manager.dart';
-//import 'package:covid/utils/widgets/search_widget.dart';
-//import 'package:flutter/cupertino.dart';
-//import 'package:flutter/material.dart';
-//
-//import '../../r.dart';
-//
-//class HelpPage extends StatefulWidget {
-//  @override
-//  _HelpPageState createState() => _HelpPageState();
-//}
-//
-//class _HelpPageState extends State<HelpPage> with AutomaticKeepAliveClientMixin {
-//  final dataList = ['nguyen', 'tuyet', 'thanh', 'chung'];
-//  final GlobalKey<MySingleChoiceSearchState> _searchWidgetKey = GlobalKey();
-//  HelpBloc _helpBloc = GetItManager().get<HelpBloc>();
-//
-//  @override
-//  void initState() {
-//    super.initState();
-//    //_helpBloc.getCountries();
-//  }
-//
-//  @override
-//  bool get wantKeepAlive {
-//    return true;
-//  }
-//
-//  @override
-//  Widget build(BuildContext context) {
-//    super.build(context);
-//    return buildHelpPage(context);
-//  }
-//
-//  buildHelpPage(context) {
-//    return Container(
-//      child: SingleChildScrollView(
-//        child: Stack(
-//          alignment: Alignment.topCenter,
-//          children: <Widget>[
-//            Image(
-//              fit: BoxFit.fitWidth,
-//              width: double.infinity,
-//              height: 300,
-//              image: AssetImage(R.assetsImagesPicbantuan),
-//            ),
-//            Container(
-//                width: double.infinity,
-//                decoration:
-//                    BoxDecoration(color: Colors.white, borderRadius: BorderRadius.only(topLeft: Radius.circular(35), topRight: Radius.circular(35))),
-//                margin: EdgeInsets.only(top: 200),
-//                child: Column(
-//                  crossAxisAlignment: CrossAxisAlignment.start,
-//                  children: <Widget>[
-//                    SizedBox(height: 15),
-//                    buildSearchWidget(),
-//                    SizedBox(height: 10),
-//                    Padding(
-//                        padding: const EdgeInsets.only(top: 10, left: 20),
-//                        child: Text("Update Corona Status", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold))),
-//                    Card(
-//                      elevation: 5,
-//                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-//                      margin: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-//                      color: Colors.white,
-//                      child: Container(height: 200),
-//                    )
-//                  ],
-//                ))
-//          ],
-//        ),
-//      ),
-//    );
-//  }
-//
-//  Widget buildSearchWidget() => GestureDetector(
-//        behavior: HitTestBehavior.translucent,
-//        onTap: () {
-//          _searchWidgetKey.currentState.dismissMenu();
-//        },
-//        child: Container(
-//          child: SearchWidget<String>(
-//            initText: "Viet Nam",
-//            key: _searchWidgetKey,
-//            dataList: dataList,
-//            selectedItemBuilder: (item, deleteItemCallback) => null,
-//            onItemSelected: (item) => _searchWidgetKey.currentState.setText(item),
-//            queryBuilder: (query, list) => list.where((String item) => item.toLowerCase().contains(query.toLowerCase())).toList(),
-//            popupListItemBuilder: (item) => Container(padding: EdgeInsets.all(20), child: Center(child: Text(item))),
-//          ),
-//        ),
-//      );
-//}
+import 'package:covid/bloc/bloc_index.dart';
+import 'package:covid/di/get_it_manager.dart';
+import 'package:covid/utils/widgets/icon_with_blur_background.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+
+import '../../r.dart';
+
+class HelpPage extends StatefulWidget {
+  @override
+  _HelpPageState createState() => _HelpPageState();
+}
+
+class _HelpPageState extends State<HelpPage> with AutomaticKeepAliveClientMixin {
+  HelpBloc _helpBloc = GetItManager().get<HelpBloc>();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  bool get wantKeepAlive {
+    return true;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
+    return buildHelpPage(context);
+  }
+
+  buildHelpPage(context) {
+    return Container(
+      child: SingleChildScrollView(
+        child: Stack(
+          alignment: Alignment.topCenter,
+          children: <Widget>[
+            Image(
+              fit: BoxFit.fitWidth,
+              width: double.infinity,
+              height: 300,
+              image: AssetImage(R.assetsImagesPicbantuan),
+            ),
+            Container(
+                width: double.infinity,
+                decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.only(topLeft: Radius.circular(35), topRight: Radius.circular(35))),
+                margin: EdgeInsets.only(top: 200),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    SizedBox(height: 15),
+                    Padding(
+                        padding: const EdgeInsets.only(top: 10, left: 20, bottom: 20),
+                        child: Text("Trung tâm trợ giúp", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold))),
+                    buildCardItem(assetName: R.assetsIconsIchotline, text: 'Hotline'),
+                    buildCardItem(assetName: R.assetsIconsIcmengenal, text: 'Triệu chứng'),
+                    buildCardItem(assetName: R.assetsIconsIcmencegah, text: 'Biện pháp phòng chống'),
+                    buildCardItem(assetName: R.assetsIconsIcmengobati, text: 'Cách điều trị'),
+                  ],
+                ))
+          ],
+        ),
+      ),
+    );
+  }
+
+  Card buildCardItem({assetName, text}) {
+    return Card(
+      elevation: 5,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      color: Colors.white,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          SizedBox(
+            width: 10,
+          ),
+          Padding(
+            padding: const EdgeInsets.all(10),
+            child: Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                ),
+                child: IconWithBlurBackground(
+                  assetImage: AssetImage(assetName),
+                  iconHeight: 30,
+                  padding: 10,
+                )),
+          ),
+          SizedBox(
+            width: 10,
+          ),
+          Expanded(
+            child: Text(text, style: TextStyle(fontSize: 15),),
+          ),
+          Text(
+            '>',
+            style: TextStyle(fontSize: 20, color: Colors.grey),
+          ),
+          SizedBox(
+            width: 10,
+          ),
+        ],
+      ),
+    );
+  }
+}

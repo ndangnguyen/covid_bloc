@@ -69,44 +69,64 @@ class _SummaryPageState extends State<SummaryPage> with AutomaticKeepAliveClient
                     SizedBox(height: 10),
                     Padding(
                         padding: const EdgeInsets.only(top: 10, left: 20),
-                        child: Text("Update Corona Status", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold))),
+                        child: Text("Thông tin mới nhất", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold))),
                     Card(
                       elevation: 5,
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
                       margin: EdgeInsets.only(left: 10, right: 10, top: 20),
                       color: Colors.white,
                       child: Container(
-                        height: 120,
+                        height: 160,
                         child: StreamBuilder(
                             stream: _summaryBloc.countriesStatisticsStream,
                             builder: (context, snapshot) {
                               if (snapshot.hasData) {
                                 CountryStatistics countryStatistics = snapshot.data;
-                                return Row(
+                                return Column(
                                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                   children: <Widget>[
-                                    createInfoValueWidget(
-                                      color: Color(ColorUtils.c_FF9E6B),
-                                      icon: Icon(Icons.brightness_low),
-                                      value: countryStatistics.cases.total.toString(),
-                                      label: 'Total cases',
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                      children: <Widget>[
+                                        createInfoValueWidget(
+                                          color: Color(ColorUtils.c_FF9E6B),
+                                          icon: Icon(Icons.brightness_low),
+                                          value: countryStatistics.cases.total.toString(),
+                                          label: 'Tổng số ca',
+                                        ),
+                                        createInfoValueWidget(
+                                          color: Color(ColorUtils.c_67C57B),
+                                          icon: Icon(Icons.favorite_border),
+                                          value: countryStatistics.cases.recovered.toString(),
+                                          label: 'Đã phục hồi',
+                                        ),
+                                        createInfoValueWidget(
+                                          color: Color(ColorUtils.c_E36172),
+                                          icon: Icon(Icons.close),
+                                          value: countryStatistics.deaths.total.toString(),
+                                          label: 'Đã tử vong',
+                                        ),
+                                      ],
                                     ),
-                                    createInfoValueWidget(
-                                      color: Color(ColorUtils.c_67C57B),
-                                      icon: Icon(Icons.favorite_border),
-                                      value: countryStatistics.cases.recovered.toString(),
-                                      label: 'Recovered',
-                                    ),
-                                    createInfoValueWidget(
-                                      color: Color(ColorUtils.c_E36172),
-                                      icon: Icon(Icons.close),
-                                      value: countryStatistics.deaths.total.toString(),
-                                      label: 'Deaths',
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                      children: <Widget>[
+                                        createInfoValueWidget(
+                                          color: Color(ColorUtils.c_FF9E6B),
+                                          value: countryStatistics.cases.newCase ?? '0',
+                                          label: 'Số ca mới',
+                                        ),
+                                        createInfoValueWidget(
+                                          color: Color(ColorUtils.c_E36172),
+                                          value: countryStatistics.deaths.newDeaths ?? '0',
+                                          label: 'Số người mới tử vong',
+                                        ),
+                                      ],
                                     ),
                                   ],
                                 );
                               }
-                              return Center(child: Text('Loading...'));
+                              return Center(child: Text('Đang tải...'));
                             }),
                       ),
                     ),
@@ -154,7 +174,7 @@ class _SummaryPageState extends State<SummaryPage> with AutomaticKeepAliveClient
       children: <Widget>[
         Indicator(
           color: Colors.blue[900],
-          text: 'Confirmed',
+          text: 'Ca nhiễm',
           isSquare: false,
           percentage: activeCase / totalCase * 100,
         ),
@@ -163,7 +183,7 @@ class _SummaryPageState extends State<SummaryPage> with AutomaticKeepAliveClient
         ),
         Indicator(
           color: Colors.blue[400],
-          text: 'Recovered',
+          text: 'Đã phục hồi',
           isSquare: false,
           percentage: recoveredCase / totalCase * 100,
         ),
@@ -172,7 +192,7 @@ class _SummaryPageState extends State<SummaryPage> with AutomaticKeepAliveClient
         ),
         Indicator(
           color: Colors.red[400],
-          text: 'Death',
+          text: 'Tử vong',
           isSquare: false,
           percentage: deaths / totalCase * 100,
         ),
@@ -212,7 +232,7 @@ class _SummaryPageState extends State<SummaryPage> with AutomaticKeepAliveClient
         children: <Widget>[
           IconTheme(
             data: IconThemeData(color: color),
-            child: icon,
+            child: icon ?? Container(),
           ),
           Text(
             value,

@@ -22,8 +22,9 @@ class GetItManager {
     getIt.registerLazySingleton<Dio>(() => provideDio());
     getIt.registerLazySingleton<ApiService>(() => provideApiService(get<Dio>()));
     getIt.registerLazySingleton<Repository>(() => provideRepository(get<ApiService>()));
+    getIt.registerLazySingleton<HomeBloc>(() => HomeBloc());
     getIt.registerLazySingleton<SummaryBloc>(() => SummaryBloc(get<Repository>()));
-    //getIt.registerLazySingleton<HelpBloc>(() => HelpBloc(get<Repository>()));
+    getIt.registerLazySingleton<HelpBloc>(() => HelpBloc(get<Repository>()));
   }
 
   Dio provideDio() {
