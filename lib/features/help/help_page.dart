@@ -1,5 +1,6 @@
 import 'package:covid/bloc/bloc_index.dart';
 import 'package:covid/di/get_it_manager.dart';
+import 'package:covid/features/help/detail_symptom/detail_sympton_page.dart';
 import 'package:covid/utils/widgets/icon_with_blur_background.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -27,10 +28,10 @@ class _HelpPageState extends State<HelpPage> with AutomaticKeepAliveClientMixin 
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return buildHelpPage(context);
+    return _buildHelpPage(context);
   }
 
-  buildHelpPage(context) {
+  _buildHelpPage(context) {
     return Container(
       child: SingleChildScrollView(
         child: Stack(
@@ -53,10 +54,10 @@ class _HelpPageState extends State<HelpPage> with AutomaticKeepAliveClientMixin 
                     Padding(
                         padding: const EdgeInsets.only(top: 10, left: 20, bottom: 20),
                         child: Text("Trung tâm trợ giúp", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold))),
-                    buildCardItem(assetName: R.assetsIconsIchotline, text: 'Hotline'),
-                    buildCardItem(assetName: R.assetsIconsIcmengenal, text: 'Triệu chứng'),
-                    buildCardItem(assetName: R.assetsIconsIcmencegah, text: 'Biện pháp phòng chống'),
-                    buildCardItem(assetName: R.assetsIconsIcmengobati, text: 'Cách điều trị'),
+                    _buildCardItem(assetName: R.assetsIconsIchotline, text: 'Hotline', heroTag: 'Hotline', pageBuilder: (tag) => DetailSymptomPage(heroTag: tag)),
+                    _buildCardItem(assetName: R.assetsIconsIcmengenal, text: 'Triệu chứng', heroTag: 'Triệu chứng', pageBuilder: (tag) => DetailSymptomPage(heroTag: tag)),
+                    _buildCardItem(assetName: R.assetsIconsIcmencegah, text: 'Biện pháp phòng chống', heroTag: 'Biện pháp phòng chống', pageBuilder: (tag) => DetailSymptomPage(heroTag: tag)),
+                    _buildCardItem(assetName: R.assetsIconsIcmengobati, text: 'Cách điều trị', heroTag: 'Cách điều trị', pageBuilder: (tag) => DetailSymptomPage(heroTag: tag)),
                   ],
                 ))
           ],
@@ -65,44 +66,54 @@ class _HelpPageState extends State<HelpPage> with AutomaticKeepAliveClientMixin 
     );
   }
 
-  Card buildCardItem({assetName, text}) {
+  _buildCardItem({assetName, text, heroTag, pageBuilder}) {
     return Card(
       elevation: 5,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       color: Colors.white,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          SizedBox(
-            width: 10,
-          ),
-          Padding(
-            padding: const EdgeInsets.all(10),
-            child: Container(
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                ),
-                child: IconWithBlurBackground(
-                  assetImage: AssetImage(assetName),
-                  iconHeight: 30,
-                  padding: 10,
-                )),
-          ),
-          SizedBox(
-            width: 10,
-          ),
-          Expanded(
-            child: Text(text, style: TextStyle(fontSize: 15),),
-          ),
-          Text(
-            '>',
-            style: TextStyle(fontSize: 20, color: Colors.grey),
-          ),
-          SizedBox(
-            width: 10,
-          ),
-        ],
+      clipBehavior: Clip.antiAlias,
+      child: InkWell(
+        onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => pageBuilder(heroTag))),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            SizedBox(
+              width: 10,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(10),
+              child: Container(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                  ),
+                  child: Hero(
+                    tag: heroTag,
+                    child: IconWithBlurBackground(
+                      assetImage: AssetImage(assetName),
+                      iconHeight: 30,
+                      padding: 10,
+                    ),
+                  )),
+            ),
+            SizedBox(
+              width: 10,
+            ),
+            Expanded(
+              child: Text(
+                text,
+                style: TextStyle(fontSize: 15),
+              ),
+            ),
+            Text(
+              '>',
+              style: TextStyle(fontSize: 20, color: Colors.grey),
+            ),
+            SizedBox(
+              width: 10,
+            ),
+          ],
+        ),
       ),
     );
   }

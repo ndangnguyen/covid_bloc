@@ -3,7 +3,7 @@ import 'package:rxdart/rxdart.dart';
 import 'base_bloc.dart';
 
 class HomeBloc extends BaseBloc {
-  var _tab = BehaviorSubject<int>();
+  var _tab = BehaviorSubject<int>.seeded(0);
 
   get tabStream => _tab.stream;
 

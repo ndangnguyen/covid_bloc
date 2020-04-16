@@ -130,28 +130,34 @@ class _SummaryPageState extends State<SummaryPage> with AutomaticKeepAliveClient
                             }),
                       ),
                     ),
-                    StreamBuilder(
-                        stream: _summaryBloc.countriesStatisticsStream,
-                        builder: (context, snapshot) {
-                          if (snapshot.hasData)
-                            return Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                PieChart(
-                                  PieChartData(
-                                    borderData: FlBorderData(
-                                      show: false,
+                    Card(
+                      elevation: 5,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                      margin: EdgeInsets.only(left: 10, right: 10, top: 10),
+                      color: Colors.white,
+                      child: StreamBuilder(
+                          stream: _summaryBloc.countriesStatisticsStream,
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData)
+                              return Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  PieChart(
+                                    PieChartData(
+                                      borderData: FlBorderData(
+                                        show: false,
+                                      ),
+                                      sectionsSpace: 0,
+                                      centerSpaceRadius: 50,
+                                      sections: _generatePieChartSection(snapshot.data),
                                     ),
-                                    sectionsSpace: 0,
-                                    centerSpaceRadius: 50,
-                                    sections: _generatePieChartSection(snapshot.data),
                                   ),
-                                ),
-                                _createIndicator(snapshot.data),
-                              ],
-                            );
-                          return Center();
-                        }
+                                  _createIndicator(snapshot.data),
+                                ],
+                              );
+                            return Center();
+                          }
+                      ),
                     ),
                     SizedBox(height: 500)
                   ],
@@ -179,7 +185,7 @@ class _SummaryPageState extends State<SummaryPage> with AutomaticKeepAliveClient
           percentage: activeCase / totalCase * 100,
         ),
         SizedBox(
-          height: 4,
+          height: 10,
         ),
         Indicator(
           color: Colors.blue[400],
@@ -188,7 +194,7 @@ class _SummaryPageState extends State<SummaryPage> with AutomaticKeepAliveClient
           percentage: recoveredCase / totalCase * 100,
         ),
         SizedBox(
-          height: 4,
+          height: 10,
         ),
         Indicator(
           color: Colors.red[400],
